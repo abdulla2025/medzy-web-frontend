@@ -35,7 +35,6 @@ import SmartDoctorChatInterface from './SmartDoctorChatInterface';
 import EnhancedSmartDoctorClean from './EnhancedSmartDoctorClean';
 import PaymentHistory from './PaymentHistory';
 import TopBar from './TopBar';
-import { API_ENDPOINTS } from '../config/api';
 
 const CustomerDashboard = () => {
   const [tickets, setTickets] = useState([]);
