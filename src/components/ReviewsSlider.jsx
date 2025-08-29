@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
+import { API_ENDPOINTS } from '../config/api';
 
 const ReviewsSlider = () => {
   const [reviews, setReviews] = useState([]);
@@ -25,8 +26,8 @@ const ReviewsSlider = () => {
     try {
       // Fetch both service reviews and vendor reviews
       const [serviceResponse, vendorResponse] = await Promise.all([
-        fetch('/api/service-reviews/public?limit=10'),
-        fetch('/api/reviews/public?limit=10')
+        fetch(API_ENDPOINTS.SERVICE_REVIEWS.PUBLIC + '?limit=10'),
+        fetch(API_ENDPOINTS.REVIEWS.PUBLIC + '?limit=10')
       ]);
       
       const allReviews = [];

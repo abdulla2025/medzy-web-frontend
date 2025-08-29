@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff, Lock, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const ResetPassword = ({ token, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -53,7 +54,7 @@ const ResetPassword = ({ token, onSuccess }) => {
 
     setLoading(true);
     try {
-      const response = await fetch('/api/auth/reset-password', {
+      const response = await fetch(API_ENDPOINTS.AUTH.RESET_PASSWORD, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
