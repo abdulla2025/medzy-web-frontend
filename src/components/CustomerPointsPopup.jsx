@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
-import { 
 import { API_ENDPOINTS } from '../config/api';
+import { 
   X, 
   Star, 
   Gift, 
