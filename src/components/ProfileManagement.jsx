@@ -21,6 +21,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 import { useDarkMode } from '../context/DarkModeContext';
+import { API_ENDPOINTS } from '../config/api';
 import MapComponent from './MapComponent';
 import LoadingSpinner from './LoadingSpinner';
 
@@ -79,7 +80,7 @@ const ProfileManagement = () => {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/profile', {
+      const response = await fetch(API_ENDPOINTS.PROFILE.BASE, {
         headers: getAuthHeaders()
       });
 
@@ -122,7 +123,7 @@ const ProfileManagement = () => {
 
   const fetchVendorReviews = async () => {
     try {
-      const response = await fetch('/api/reviews/vendor/my-reviews', {
+      const response = await fetch(API_ENDPOINTS.REVIEWS.VENDOR.MY_REVIEWS, {
         headers: getAuthHeaders()
       });
 
@@ -175,7 +176,7 @@ const ProfileManagement = () => {
     setSaving(true);
 
     try {
-      const response = await fetch('/api/profile', {
+      const response = await fetch(API_ENDPOINTS.PROFILE.BASE, {
         method: 'PUT',
         headers: getAuthHeaders(),
         body: JSON.stringify(formData)
@@ -213,7 +214,7 @@ const ProfileManagement = () => {
     setSaving(true);
 
     try {
-      const response = await fetch('/api/profile/change-password', {
+      const response = await fetch(API_ENDPOINTS.PROFILE.CHANGE_PASSWORD, {
         method: 'PUT',
         headers: getAuthHeaders(),
         body: JSON.stringify({
