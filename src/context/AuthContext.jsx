@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { Heart } from 'lucide-react';
+import { API_ENDPOINTS } from '../config/api.js';
 
 const AuthContext = createContext();
 
@@ -150,7 +151,7 @@ export const AuthProvider = ({ children }) => {
     if (!token || !user) return;
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/session-check', {
+      const response = await fetch(API_ENDPOINTS.AUTH.SESSION_CHECK, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -258,7 +259,7 @@ export const AuthProvider = ({ children }) => {
   // Professional user fetching with proper error handling
   const fetchCurrentUser = async (token, retryCount = 0) => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/me', {
+      const response = await fetch(API_ENDPOINTS.AUTH.ME, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -323,7 +324,7 @@ export const AuthProvider = ({ children }) => {
     setAuthError(null);
     
     try {
-      const response = await fetch('http://localhost:5000/api/auth/signin', {
+      const response = await fetch(API_ENDPOINTS.AUTH.SIGNIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -399,7 +400,7 @@ export const AuthProvider = ({ children }) => {
     setAuthError(null);
     
     try {
-      const response = await fetch('http://localhost:5000/api/auth/signup', {
+      const response = await fetch(API_ENDPOINTS.AUTH.SIGNUP, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -459,7 +460,7 @@ export const AuthProvider = ({ children }) => {
       
       // Notify server about logout (but don't wait for response to block UI)
       if (token && sessionId) {
-        fetch('http://localhost:5000/api/auth/logout', {
+        fetch(API_ENDPOINTS.AUTH.LOGOUT, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
