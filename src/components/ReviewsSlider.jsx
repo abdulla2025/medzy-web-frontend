@@ -24,6 +24,15 @@ const ReviewsSlider = () => {
 
   const fetchReviews = async () => {
     try {
+      console.log('🔍 ReviewsSlider - API_ENDPOINTS:', API_ENDPOINTS);
+      console.log('🔍 ReviewsSlider - REVIEWS object:', API_ENDPOINTS.REVIEWS);
+      console.log('🔍 ReviewsSlider - PUBLIC endpoint:', API_ENDPOINTS.REVIEWS?.PUBLIC);
+      
+      // Check if API_ENDPOINTS is properly loaded
+      if (!API_ENDPOINTS || !API_ENDPOINTS.REVIEWS) {
+        throw new Error('API_ENDPOINTS.REVIEWS is not defined');
+      }
+      
       // Fetch both service reviews and vendor reviews
       const [serviceResponse, vendorResponse] = await Promise.all([
         fetch(API_ENDPOINTS.SERVICE_REVIEWS.PUBLIC + '?limit=10'),

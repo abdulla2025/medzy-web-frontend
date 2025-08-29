@@ -18,6 +18,7 @@ import {
   Percent
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 import { useNotification } from '../context/NotificationContext';
 import { API_ENDPOINTS, getAuthHeaders } from '../config/api';
 
@@ -52,7 +53,7 @@ const VendorReports = () => {
       setLoading(true);
       console.log('📊 Fetching vendor stats with timeframe:', timeframe);
 
-      const response = await fetch(`/api/orders/vendor/stats?timeframe=${timeframe}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/orders/vendor/stats?timeframe=${timeframe}`, {
         headers: getAuthHeaders()
       });
 

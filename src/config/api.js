@@ -24,6 +24,11 @@ console.log('🔧 API Configuration:', {
   hostname: typeof window !== 'undefined' ? window.location.hostname : 'server'
 });
 
+// Validate API configuration
+if (!API_BASE_URL) {
+  console.error('❌ API_BASE_URL is not defined!');
+}
+
 // API endpoints
 export const API_ENDPOINTS = {
   // Base URL
