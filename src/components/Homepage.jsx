@@ -75,10 +75,10 @@ const Homepage = ({ onGetStarted, onSignIn, user, onGoToDashboard, isGuest = fal
             </button>
             
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">🎯 Features</a>
-              <a href="#reviews" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">⭐ Reviews</a>
-              <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">ℹ️ About</a>
-              <a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">📞 Contact</a>
+              <a href="#features" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">Features</a>
+              <a href="#reviews" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">Reviews</a>
+              <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">About</a>
+              <a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">Contact</a>
               
               {user ? (
                 // Logged in user options
@@ -201,7 +201,7 @@ const Homepage = ({ onGetStarted, onSignIn, user, onGoToDashboard, isGuest = fal
                     onClick={onGetStarted}
                     className="bg-gradient-to-r from-blue-600 to-green-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-green-600 transition-all duration-200 flex items-center justify-center space-x-2 hover:scale-105 transform"
                   >
-                    <span>🚀 Get Started for Free</span>
+                    <span>Get Started for Free</span>
                     <ArrowRight className="h-5 w-5" />
                   </button>
                   
@@ -209,7 +209,7 @@ const Homepage = ({ onGetStarted, onSignIn, user, onGoToDashboard, isGuest = fal
                     onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
                     className="border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-xl font-semibold hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200"
                   >
-                    📖 Learn More
+                    Learn More
                   </button>
                 </>
               )}
