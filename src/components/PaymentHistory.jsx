@@ -52,7 +52,7 @@ const PaymentHistory = () => {
         ...(filters.dateTo && { dateTo: filters.dateTo })
       });
 
-      const response = await fetch(`/api/payments/history?${queryParams}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/history?${queryParams}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

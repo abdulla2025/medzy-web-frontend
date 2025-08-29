@@ -69,7 +69,7 @@ const OrderTracking = ({ onBack }) => {
         ...(searchTerm && { search: searchTerm })
       });
 
-      const response = await fetch(`/api/orders/my-orders?${params}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/orders/my-orders?${params}`, {
         headers: getAuthHeaders()
       });
 

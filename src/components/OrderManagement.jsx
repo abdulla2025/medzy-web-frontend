@@ -34,7 +34,7 @@ const OrderManagement = ({ onBack }) => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch(`/api/orders/my-orders?page=${currentPage}&limit=10`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/orders/my-orders?page=${currentPage}&limit=10`, {
         headers: getAuthHeaders()
       });
 

@@ -82,7 +82,7 @@ const DailyUpdates = () => {
       });
 
       console.log('🔍 Fetching updates with params:', queryParams.toString());
-      const response = await fetch(`/api/daily-updates?${queryParams}`);
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/daily-updates?${queryParams}`);
       console.log('📡 API Response status:', response.status);
       
       if (response.ok) {
@@ -151,7 +151,7 @@ const DailyUpdates = () => {
       const headers = getAuthHeaders();
       const tagsArray = formData.tags ? formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
       
-      const response = await fetch(`/api/daily-updates/${editingUpdate._id}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/daily-updates/${editingUpdate._id}`, {
         method: 'PUT',
         headers,
         body: JSON.stringify({
@@ -178,7 +178,7 @@ const DailyUpdates = () => {
   const handleLike = async (updateId) => {
     try {
       const headers = getAuthHeaders();
-      const response = await fetch(`/api/daily-updates/${updateId}/like`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/daily-updates/${updateId}/like`, {
         method: 'POST',
         headers
       });
@@ -196,7 +196,7 @@ const DailyUpdates = () => {
     
     try {
       const headers = getAuthHeaders();
-      const response = await fetch(`/api/daily-updates/${updateId}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/daily-updates/${updateId}`, {
         method: 'DELETE',
         headers
       });

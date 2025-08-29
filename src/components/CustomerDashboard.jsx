@@ -170,7 +170,7 @@ const CustomerDashboard = () => {
   const fetchUserOrders = async () => {
     try {
       console.log('📡 Fetching user orders for support form...');
-      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/orders/customer`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/orders/my-orders`, {
         headers: getAuthHeaders()
       });
 
