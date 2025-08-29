@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const BkashPayment = ({ orderId, amount, onSuccess, onError, onCancel }) => {
   const { token } = useAuth();

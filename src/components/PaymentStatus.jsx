@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircle, XCircle, Clock, RefreshCw, Home, ShoppingBag } from 'lucide-react';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const PaymentStatus = () => {
   const [status, setStatus] = useState('processing');
@@ -296,3 +297,4 @@ const PaymentStatus = () => {
 };
 
 export default PaymentStatus;
+

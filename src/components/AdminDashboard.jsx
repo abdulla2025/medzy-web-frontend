@@ -51,7 +51,7 @@ const AdminDashboard = () => {
       const headers = { 'Content-Type': 'application/json', ...getAuthHeaders() };
       
       // Fetch users
-      const usersResponse = await fetch('/api/users', { headers });
+      const usersResponse = await fetch(`${API_ENDPOINTS.BASE_URL}/api/users`, { headers });
       if (usersResponse.ok) {
         const usersData = await usersResponse.json();
         // Ensure role property exists for each user
@@ -78,15 +78,15 @@ const AdminDashboard = () => {
       }
 
       // Fetch support tickets
-      const ticketsResponse = await fetch('/api/support', { headers });
+      const ticketsResponse = await fetch(`${API_ENDPOINTS.BASE_URL}/api/support`, { headers });
       if (ticketsResponse.ok) {
         const ticketsData = await ticketsResponse.json();
         setSupportTickets(ticketsData);
       }
 
       // Fetch stats
-      const userStatsResponse = await fetch('/api/users/stats', { headers });
-      const supportStatsResponse = await fetch('/api/support/stats', { headers });
+      const userStatsResponse = await fetch(`${API_ENDPOINTS.BASE_URL}/api/users/stats`, { headers });
+      const supportStatsResponse = await fetch(`${API_ENDPOINTS.BASE_URL}/api/support/stats`, { headers });
       
       if (userStatsResponse.ok && supportStatsResponse.ok) {
         const userStats = await userStatsResponse.json();
@@ -107,7 +107,7 @@ const AdminDashboard = () => {
       }
 
       try {
-        const response = await fetch(`/api/users/${userId}/status`, {
+        const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/users/${userId}/status`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
           body: JSON.stringify({ isActive: !currentStatus })
@@ -142,7 +142,7 @@ const AdminDashboard = () => {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`/api/users/${userId}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/users/${userId}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
       });
@@ -166,7 +166,7 @@ const AdminDashboard = () => {
     }
     
     try {
-      const updateResponse = await fetch(`/api/support/${ticketId}`, {
+      const updateResponse = await fetch(`${API_ENDPOINTS.BASE_URL}/api/support/${ticketId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
         body: JSON.stringify({ status, adminResponse: response })

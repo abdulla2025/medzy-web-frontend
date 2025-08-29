@@ -152,7 +152,7 @@ const CustomerDashboard = () => {
   const fetchUserPayments = async () => {
     try {
       console.log('📡 Fetching user payments for support form...');
-      const response = await fetch('/api/payments/history?limit=50&status=completed', {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/history?limit=50&status=completed`, {
         headers: getAuthHeaders()
       });
 
@@ -171,7 +171,7 @@ const CustomerDashboard = () => {
   const fetchUserOrders = async () => {
     try {
       console.log('📡 Fetching user orders for support form...');
-      const response = await fetch('/api/orders/customer', {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/orders/customer`, {
         headers: getAuthHeaders()
       });
 
@@ -204,7 +204,7 @@ const CustomerDashboard = () => {
 
     try {
       console.log('📡 Sending support request...');
-      const response = await fetch('/api/support', {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/support`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

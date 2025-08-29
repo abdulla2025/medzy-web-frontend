@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 import { 
   MessageCircle, 
   Clock, 
@@ -104,7 +106,7 @@ const AdminSupportManagement = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch('/api/support/stats', {
+      const response = await fetch(${API_ENDPOINTS.BASE_URL}/api/support/stats', {
         headers: getAuthHeaders()
       });
 
@@ -856,3 +858,4 @@ const AdminSupportManagement = () => {
 };
 
 export default AdminSupportManagement;
+

@@ -14,6 +14,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const PaymentHistory = () => {
   const { token } = useAuth();
@@ -468,3 +469,4 @@ const PaymentHistory = () => {
 };
 
 export default PaymentHistory;
+

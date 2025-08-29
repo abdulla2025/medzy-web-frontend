@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 import { 
   DollarSign, 
   TrendingUp, 
@@ -472,3 +474,4 @@ const AdminRevenueManagement = () => {
 };
 
 export default AdminRevenueManagement;
+

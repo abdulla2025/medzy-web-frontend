@@ -689,3 +689,4 @@ const DailyUpdates = () => {
 };
 
 export default DailyUpdates;
+

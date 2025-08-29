@@ -274,3 +274,4 @@ const CustomerPointsPopup = ({ isOpen, onClose, customerId = null }) => {
 };
 
 export default CustomerPointsPopup;
+

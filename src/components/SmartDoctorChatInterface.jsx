@@ -103,7 +103,11 @@ const medicalContexts = {
   }
 };
 
-// AI Models Configuration
+// AI Model Configuration
+const AI_CONFIG = {
+  OLLAMA_URL: import.meta.env.VITE_OLLAMA_URL || '${AI_CONFIG.OLLAMA_URL}',
+  FALLBACK_TO_SMART_DOCTOR: true
+};
 const aiModels = {
   gemini_fast: {
     name: "Google Gemini Flash (Cloud)",
@@ -358,7 +362,7 @@ Provide evidence-based, practical advice while prioritizing patient safety and t
   // Ollama API query
   async queryOllama(prompt) {
     try {
-      const response = await fetch('http://localhost:11434/api/generate', {
+      const response = await fetch('${AI_CONFIG.OLLAMA_URL}/api/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -385,7 +389,7 @@ Provide evidence-based, practical advice while prioritizing patient safety and t
   // Check Ollama connection
   async checkOllamaConnection() {
     try {
-      const response = await fetch('http://localhost:11434/api/tags', {
+      const response = await fetch('${AI_CONFIG.OLLAMA_URL}/api/tags', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -401,7 +405,7 @@ Provide evidence-based, practical advice while prioritizing patient safety and t
   // Get available Ollama models
   async getAvailableOllamaModels() {
     try {
-      const response = await fetch('http://localhost:11434/api/tags');
+      const response = await fetch('${AI_CONFIG.OLLAMA_URL}/api/tags');
       const data = await response.json();
       return data.models || [];
     } catch (error) {

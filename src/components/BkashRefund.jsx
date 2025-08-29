@@ -8,6 +8,8 @@ import {
   ArrowLeft 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const BkashRefund = ({ payment, onSuccess, onError, onCancel }) => {
   const { token } = useAuth();
@@ -30,7 +32,7 @@ const BkashRefund = ({ payment, onSuccess, onError, onCancel }) => {
     setIsProcessing(true);
 
     try {
-      const response = await fetch('/api/payments/bkash/refund', {
+      const response = await fetch(${API_ENDPOINTS.BASE_URL}/api/payments/bkash/refund', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

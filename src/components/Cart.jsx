@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Minus, Trash2, ShoppingCart, CreditCard, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 import Modal from './Modal';
 
 // Enhanced CartItem component with clear medicine information display
@@ -132,7 +133,7 @@ const Cart = ({ onContinueShopping, onClose }) => {
         return;
       }
       
-      const response = await fetch('/api/cart', { headers });
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/cart`, { headers });
 
       if (response.ok) {
         const data = await response.json();
