@@ -26,6 +26,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 import Modal from './Modal';
+import { API_ENDPOINTS } from '../config/api';
 
 const VendorOrderManagement = ({ onBack }) => {
   const [orders, setOrders] = useState([]);
@@ -91,7 +92,7 @@ const VendorOrderManagement = ({ onBack }) => {
 
       console.log('🔍 Fetching vendor orders with params:', Object.fromEntries(params));
 
-      const response = await fetch(`/api/orders/vendor/orders?${params}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/orders/vendor/orders?${params}`, {
         headers: getAuthHeaders()
       });
 
@@ -129,7 +130,7 @@ const VendorOrderManagement = ({ onBack }) => {
 
       const paymentPromises = sslOrders.map(async (order) => {
         try {
-          const response = await fetch(`/api/payments/order/${order._id}`, {
+          const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/order/${order._id}`, {
             headers: getAuthHeaders()
           });
           
@@ -163,7 +164,7 @@ const VendorOrderManagement = ({ onBack }) => {
 
   const handleStatusUpdate = async (orderId, status, notes = '') => {
     try {
-      const response = await fetch(`/api/orders/vendor/${orderId}/status`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/orders/vendor/${orderId}/status`, {
         method: 'PUT',
         headers: {
           ...getAuthHeaders(),

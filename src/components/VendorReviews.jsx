@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Star, MessageCircle, User, Calendar, Package, TrendingUp, Award } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const VendorReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -22,7 +23,7 @@ const VendorReviews = () => {
   const fetchReviews = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/reviews/vendor/my-reviews?page=${currentPage}&limit=10`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/reviews/vendor/my-reviews?page=${currentPage}&limit=10`, {
         headers: getAuthHeaders()
       });
 
