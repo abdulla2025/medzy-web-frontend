@@ -5,8 +5,11 @@ const getApiBaseUrl = () => {
     return import.meta.env.VITE_API_URL;
   }
   
-  // Production fallback based on current hostname
-  if (typeof window !== 'undefined' && window.location.hostname.includes('vercel.app')) {
+  // Production fallback - force production URL for all vercel deployments
+  if (typeof window !== 'undefined' && 
+      (window.location.hostname.includes('vercel.app') || 
+       window.location.hostname.includes('medzy-web') ||
+       import.meta.env.PROD)) {
     return 'https://medzy-web-backend.vercel.app';
   }
   
@@ -15,165 +18,172 @@ const getApiBaseUrl = () => {
 };
 
 const API_BASE_URL = getApiBaseUrl();
+
+// Production override - ensure production URL is always used in production builds
+const FINAL_API_BASE_URL = import.meta.env.PROD && !import.meta.env.VITE_API_URL 
+  ? 'https://medzy-web-backend.vercel.app' 
+  : API_BASE_URL;
+
 const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL || 'http://localhost:5173';
 
 console.log('🔧 API Configuration:', {
   VITE_API_URL: import.meta.env.VITE_API_URL,
   API_BASE_URL,
+  FINAL_API_BASE_URL,
   environment: import.meta.env.MODE,
   hostname: typeof window !== 'undefined' ? window.location.hostname : 'server'
 });
 
 // Validate API configuration
-if (!API_BASE_URL) {
-  console.error('❌ API_BASE_URL is not defined!');
+if (!FINAL_API_BASE_URL) {
+  console.error('❌ FINAL_API_BASE_URL is not defined!');
 }
 
 // API endpoints
 export const API_ENDPOINTS = {
   // Base URL
-  BASE_URL: API_BASE_URL,
+  BASE_URL: FINAL_API_BASE_URL,
   
   // Authentication
   AUTH: {
-    SIGNUP: `${API_BASE_URL}/api/auth/signup`,
-    SIGNIN: `${API_BASE_URL}/api/auth/signin`,
-    LOGOUT: `${API_BASE_URL}/api/auth/logout`,
-    ME: `${API_BASE_URL}/api/auth/me`,
-    SESSION_CHECK: `${API_BASE_URL}/api/auth/session-check`,
-    FORGOT_PASSWORD: `${API_BASE_URL}/api/auth/forgot-password`,
-    RESET_PASSWORD: `${API_BASE_URL}/api/auth/reset-password`,
-    VERIFY_EMAIL: `${API_BASE_URL}/api/auth/verify-email`,
-    RESEND_VERIFICATION: `${API_BASE_URL}/api/auth/resend-verification`,
-    FORCE_LOGIN: `${API_BASE_URL}/api/auth/force-login`,
+    SIGNUP: `${FINAL_API_BASE_URL}/api/auth/signup`,
+    SIGNIN: `${FINAL_API_BASE_URL}/api/auth/signin`,
+    LOGOUT: `${FINAL_API_BASE_URL}/api/auth/logout`,
+    ME: `${FINAL_API_BASE_URL}/api/auth/me`,
+    SESSION_CHECK: `${FINAL_API_BASE_URL}/api/auth/session-check`,
+    FORGOT_PASSWORD: `${FINAL_API_BASE_URL}/api/auth/forgot-password`,
+    RESET_PASSWORD: `${FINAL_API_BASE_URL}/api/auth/reset-password`,
+    VERIFY_EMAIL: `${FINAL_API_BASE_URL}/api/auth/verify-email`,
+    RESEND_VERIFICATION: `${FINAL_API_BASE_URL}/api/auth/resend-verification`,
+    FORCE_LOGIN: `${FINAL_API_BASE_URL}/api/auth/force-login`,
   },
   
   // Users
   USERS: {
-    BASE: `${API_BASE_URL}/api/users`,
-    PROFILE: `${API_BASE_URL}/api/profile`,
+    BASE: `${FINAL_API_BASE_URL}/api/users`,
+    PROFILE: `${FINAL_API_BASE_URL}/api/profile`,
   },
   
   // Profile
   PROFILE: {
-    BASE: `${API_BASE_URL}/api/profile`,
-    CHANGE_PASSWORD: `${API_BASE_URL}/api/profile/change-password`,
+    BASE: `${FINAL_API_BASE_URL}/api/profile`,
+    CHANGE_PASSWORD: `${FINAL_API_BASE_URL}/api/profile/change-password`,
   },
   
   // Medicines
   MEDICINES: {
-    BASE: `${API_BASE_URL}/api/medicines`,
-    SEARCH: `${API_BASE_URL}/api/medicines/search`,
+    BASE: `${FINAL_API_BASE_URL}/api/medicines`,
+    SEARCH: `${FINAL_API_BASE_URL}/api/medicines/search`,
   },
   
   // Orders
   ORDERS: {
-    BASE: `${API_BASE_URL}/api/orders`,
-    MY_ORDERS: `${API_BASE_URL}/api/orders/my-orders`,
+    BASE: `${FINAL_API_BASE_URL}/api/orders`,
+    MY_ORDERS: `${FINAL_API_BASE_URL}/api/orders/my-orders`,
     VENDOR: {
-      STATS: `${API_BASE_URL}/api/orders/vendor/stats`,
+      STATS: `${FINAL_API_BASE_URL}/api/orders/vendor/stats`,
     }
   },
   
   // Cart
   CART: {
-    BASE: `${API_BASE_URL}/api/cart`,
-    COUNT: `${API_BASE_URL}/api/cart/count`,
-    ADD: `${API_BASE_URL}/api/cart/add`,
+    BASE: `${FINAL_API_BASE_URL}/api/cart`,
+    COUNT: `${FINAL_API_BASE_URL}/api/cart/count`,
+    ADD: `${FINAL_API_BASE_URL}/api/cart/add`,
   },
   
   // Medicine Requests
   MEDICINE_REQUESTS: {
-    BASE: `${API_BASE_URL}/api/medicine-requests`,
-    MY_REQUESTS: `${API_BASE_URL}/api/medicine-requests/my-requests`,
-    ALL: `${API_BASE_URL}/api/medicine-requests/all`,
+    BASE: `${FINAL_API_BASE_URL}/api/medicine-requests`,
+    MY_REQUESTS: `${FINAL_API_BASE_URL}/api/medicine-requests/my-requests`,
+    ALL: `${FINAL_API_BASE_URL}/api/medicine-requests/all`,
   },
   
   // Donations
   DONATIONS: {
-    BASE: `${API_BASE_URL}/api/donations`,
-    SUBMIT: `${API_BASE_URL}/api/donations/submit`,
-    BROWSE: `${API_BASE_URL}/api/donations/browse`,
-    MY_DONATIONS: `${API_BASE_URL}/api/donations/my-donations`,
+    BASE: `${FINAL_API_BASE_URL}/api/donations`,
+    SUBMIT: `${FINAL_API_BASE_URL}/api/donations/submit`,
+    BROWSE: `${FINAL_API_BASE_URL}/api/donations/browse`,
+    MY_DONATIONS: `${FINAL_API_BASE_URL}/api/donations/my-donations`,
   },
   
   // Payments
   PAYMENTS: {
-    BASE: `${API_BASE_URL}/api/payments`,
-    CREATE: `${API_BASE_URL}/api/payments/create`,
-    BKASH: `${API_BASE_URL}/api/payments/bkash`,
-    SSLCOMMERZ: `${API_BASE_URL}/api/payments/sslcommerz`,
-    STRIPE: `${API_BASE_URL}/api/payments/stripe`,
-    PROCESS_SUCCESS: `${API_BASE_URL}/api/payments/process-success`,
-    PROCESS_FAILURE: `${API_BASE_URL}/api/payments/process-failure`,
+    BASE: `${FINAL_API_BASE_URL}/api/payments`,
+    CREATE: `${FINAL_API_BASE_URL}/api/payments/create`,
+    BKASH: `${FINAL_API_BASE_URL}/api/payments/bkash`,
+    SSLCOMMERZ: `${FINAL_API_BASE_URL}/api/payments/sslcommerz`,
+    STRIPE: `${FINAL_API_BASE_URL}/api/payments/stripe`,
+    PROCESS_SUCCESS: `${FINAL_API_BASE_URL}/api/payments/process-success`,
+    PROCESS_FAILURE: `${FINAL_API_BASE_URL}/api/payments/process-failure`,
     VENDOR: {
-      EARNINGS: `${API_BASE_URL}/api/payments/vendor/earnings`,
+      EARNINGS: `${FINAL_API_BASE_URL}/api/payments/vendor/earnings`,
     }
   },
   
   // Reviews
   REVIEWS: {
-    BASE: `${API_BASE_URL}/api/reviews`,
-    PUBLIC: `${API_BASE_URL}/api/reviews/public`,
+    BASE: `${FINAL_API_BASE_URL}/api/reviews`,
+    PUBLIC: `${FINAL_API_BASE_URL}/api/reviews/public`,
     VENDOR: {
-      MY_REVIEWS: `${API_BASE_URL}/api/reviews/vendor/my-reviews`,
+      MY_REVIEWS: `${FINAL_API_BASE_URL}/api/reviews/vendor/my-reviews`,
     }
   },
   
   // Service Reviews
   SERVICE_REVIEWS: {
-    BASE: `${API_BASE_URL}/api/service-reviews`,
-    PUBLIC: `${API_BASE_URL}/api/service-reviews/public`,
+    BASE: `${FINAL_API_BASE_URL}/api/service-reviews`,
+    PUBLIC: `${FINAL_API_BASE_URL}/api/service-reviews/public`,
   },
   
   // Support
   SUPPORT: {
-    BASE: `${API_BASE_URL}/api/support`,
-    MY_TICKETS: `${API_BASE_URL}/api/support/my-tickets`,
+    BASE: `${FINAL_API_BASE_URL}/api/support`,
+    MY_TICKETS: `${FINAL_API_BASE_URL}/api/support/my-tickets`,
   },
   
   // Smart Doctor
   SMART_DOCTOR: {
-    BASE: `${API_BASE_URL}/api/smart-doctor`,
-    ANALYZE_SYMPTOMS: `${API_BASE_URL}/api/smart-doctor/analyze-symptoms`,
-    EXTRACT_PRESCRIPTION: `${API_BASE_URL}/api/smart-doctor/extract-prescription`,
-    PERSONALIZED_PROFILE: `${API_BASE_URL}/api/smart-doctor/personalized-profile`,
-    MEDICINE_RECOMMENDATIONS: `${API_BASE_URL}/api/smart-doctor/medicine-recommendations`,
+    BASE: `${FINAL_API_BASE_URL}/api/smart-doctor`,
+    ANALYZE_SYMPTOMS: `${FINAL_API_BASE_URL}/api/smart-doctor/analyze-symptoms`,
+    EXTRACT_PRESCRIPTION: `${FINAL_API_BASE_URL}/api/smart-doctor/extract-prescription`,
+    PERSONALIZED_PROFILE: `${FINAL_API_BASE_URL}/api/smart-doctor/personalized-profile`,
+    MEDICINE_RECOMMENDATIONS: `${FINAL_API_BASE_URL}/api/smart-doctor/medicine-recommendations`,
   },
   
   // Medicine Reminders
   MEDICINE_REMINDERS: {
-    BASE: `${API_BASE_URL}/api/medicine-reminders`,
-    TODAY: `${API_BASE_URL}/api/medicine-reminders/today`,
-    ADHERENCE: `${API_BASE_URL}/api/medicine-reminders/adherence`,
+    BASE: `${FINAL_API_BASE_URL}/api/medicine-reminders`,
+    TODAY: `${FINAL_API_BASE_URL}/api/medicine-reminders/today`,
+    ADHERENCE: `${FINAL_API_BASE_URL}/api/medicine-reminders/adherence`,
   },
   
   // Daily Updates
   DAILY_UPDATES: {
-    BASE: `${API_BASE_URL}/api/daily-updates`,
+    BASE: `${FINAL_API_BASE_URL}/api/daily-updates`,
   },
   
   // Disputes
   DISPUTES: {
-    BASE: `${API_BASE_URL}/api/disputes`,
+    BASE: `${FINAL_API_BASE_URL}/api/disputes`,
   },
   
   // Customer Points
   CUSTOMER_POINTS: {
-    BASE: `${API_BASE_URL}/api/customer-points`,
-    BALANCE: `${API_BASE_URL}/api/customer-points/balance`,
-    TRANSACTIONS: `${API_BASE_URL}/api/customer-points/transactions`,
+    BASE: `${FINAL_API_BASE_URL}/api/customer-points`,
+    BALANCE: `${FINAL_API_BASE_URL}/api/customer-points/balance`,
+    TRANSACTIONS: `${FINAL_API_BASE_URL}/api/customer-points/transactions`,
   },
   
   // Medical Profile
   MEDICAL_PROFILE: {
-    BASE: `${API_BASE_URL}/api/medical-profile`,
-    MEDICAL_HISTORY: `${API_BASE_URL}/api/medical-profile/medical-history`,
+    BASE: `${FINAL_API_BASE_URL}/api/medical-profile`,
+    MEDICAL_HISTORY: `${FINAL_API_BASE_URL}/api/medical-profile/medical-history`,
   },
   
   // Revenue Adjustments
   REVENUE_ADJUSTMENTS: {
-    BASE: `${API_BASE_URL}/api/revenue-adjustments`,
+    BASE: `${FINAL_API_BASE_URL}/api/revenue-adjustments`,
   },
 };
 
