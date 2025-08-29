@@ -113,9 +113,17 @@ const EnhancedSmartDoctorClean = ({ onNavigateToMedicines = null }) => {
       id: 1,
       medicine: 'Metformin',
       dosage: '500mg',
-      timing: ['Morning', 'Evening'],
+      timing: ['Morning (08:00)', 'Evening (18:00)'],
       duration: '30 days',
       notes: 'Take with food'
+    },
+    {
+      id: 2,
+      medicine: 'Vitamin D3',
+      dosage: '1000 IU',
+      timing: ['After Breakfast (09:00)'],
+      duration: '90 days',
+      notes: 'Take with calcium for better absorption'
     }
   ]);
   const [newReminder, setNewReminder] = useState({
@@ -2195,6 +2203,118 @@ Example: 'I have been experiencing a throbbing headache on the right side of my 
                   />
                 </div>
                 
+                {/* Time Selection Section */}
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                    <Clock className="w-4 h-4 inline mr-2" />
+                    Reminder Times
+                  </label>
+                  <div className="space-y-4">
+                    {/* Quick Time Presets */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {[
+                        { label: 'Morning', time: '08:00' },
+                        { label: 'Afternoon', time: '14:00' },
+                        { label: 'Evening', time: '18:00' },
+                        { label: 'Night', time: '22:00' },
+                        { label: 'Before Breakfast', time: '07:30' },
+                        { label: 'After Breakfast', time: '09:00' },
+                        { label: 'Before Lunch', time: '12:30' },
+                        { label: 'After Lunch', time: '13:30' },
+                        { label: 'Before Dinner', time: '17:30' },
+                        { label: 'After Dinner', time: '19:30' }
+                      ].map((preset) => (
+                        <button
+                          key={preset.label}
+                          type="button"
+                          onClick={() => {
+                            const timeExists = newReminder.timing.some(t => t.includes(preset.time) || t === preset.label);
+                            if (!timeExists) {
+                              setNewReminder({
+                                ...newReminder,
+                                timing: [...newReminder.timing, `${preset.label} (${preset.time})`]
+                              });
+                            }
+                          }}
+                          className="px-3 py-2 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors border border-blue-200 dark:border-blue-700"
+                        >
+                          {preset.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Custom Time Input */}
+                    <div className="flex gap-3 items-end">
+                      <div className="flex-1">
+                        <input
+                          type="time"
+                          id="customTime"
+                          className="w-full p-3 border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <input
+                          type="text"
+                          placeholder="Label (optional)"
+                          id="customLabel"
+                          className="w-full p-3 border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const timeInput = document.getElementById('customTime');
+                          const labelInput = document.getElementById('customLabel');
+                          if (timeInput.value) {
+                            const label = labelInput.value || 'Custom';
+                            const timeString = `${label} (${timeInput.value})`;
+                            const timeExists = newReminder.timing.some(t => t.includes(timeInput.value));
+                            if (!timeExists) {
+                              setNewReminder({
+                                ...newReminder,
+                                timing: [...newReminder.timing, timeString]
+                              });
+                              timeInput.value = '';
+                              labelInput.value = '';
+                            }
+                          }
+                        }}
+                        className="px-4 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors flex items-center"
+                      >
+                        <Plus className="w-4 h-4 mr-1" />
+                        Add
+                      </button>
+                    </div>
+
+                    {/* Selected Times Display */}
+                    {newReminder.timing.length > 0 && (
+                      <div className="mt-4">
+                        <h6 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Selected Times:</h6>
+                        <div className="flex flex-wrap gap-2">
+                          {newReminder.timing.map((time, index) => (
+                            <div key={index} className="flex items-center bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-3 py-1 rounded-full text-sm">
+                              <Clock className="w-3 h-3 mr-1" />
+                              {time}
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setNewReminder({
+                                    ...newReminder,
+                                    timing: newReminder.timing.filter((_, i) => i !== index)
+                                  });
+                                }}
+                                className="ml-2 text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-200"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Notes
@@ -2211,11 +2331,16 @@ Example: 'I have been experiencing a throbbing headache on the right side of my 
               
               <button
                 onClick={addMedicineReminder}
-                disabled={!newReminder.medicine || !newReminder.dosage}
+                disabled={!newReminder.medicine || !newReminder.dosage || newReminder.timing.length === 0}
                 className="mt-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center shadow-lg hover:shadow-xl"
               >
                 <Plus className="w-5 h-5 mr-2" />
                 Add Reminder
+                {newReminder.timing.length === 0 && newReminder.medicine && newReminder.dosage && (
+                  <span className="ml-2 text-xs bg-yellow-500 text-yellow-900 px-2 py-1 rounded-full">
+                    Add time first
+                  </span>
+                )}
               </button>
             </div>
 
@@ -2223,7 +2348,7 @@ Example: 'I have been experiencing a throbbing headache on the right side of my 
             <div className="space-y-4">
               <h4 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center">
                 <Bell className="w-6 h-6 mr-3 text-orange-500" />
-                🔔 Your Medicine Reminders ({reminders.length})
+                Your Medicine Reminders ({reminders.length})
               </h4>
               
               <div className="grid gap-4 max-h-96 overflow-y-auto scrollbar-thin">
@@ -2236,13 +2361,10 @@ Example: 'I have been experiencing a throbbing headache on the right side of my 
                           {reminder.medicine}
                         </h5>
                         
-                        <div className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                        <div className="text-sm text-gray-600 dark:text-gray-300 space-y-3">
                           <div className="grid md:grid-cols-2 gap-4">
                             <div>
                               <span className="font-medium">💊 Dosage:</span> {reminder.dosage}
-                            </div>
-                            <div>
-                              <span className="font-medium">⏰ Timing:</span> {reminder.timing.join(', ')}
                             </div>
                             {reminder.duration && (
                               <div>
@@ -2250,10 +2372,23 @@ Example: 'I have been experiencing a throbbing headache on the right side of my 
                               </div>
                             )}
                             {reminder.notes && (
-                              <div>
-                                <span className="font-medium">📝 Notes:</span> {reminder.notes}
+                              <div className="md:col-span-2">
+                                <span className="font-medium">� Notes:</span> {reminder.notes}
                               </div>
                             )}
+                          </div>
+                          
+                          {/* Enhanced Timing Display */}
+                          <div>
+                            <span className="font-medium text-gray-700 dark:text-gray-300 mb-2 block">⏰ Reminder Times:</span>
+                            <div className="flex flex-wrap gap-2">
+                              {reminder.timing.map((time, index) => (
+                                <div key={index} className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                                  <Clock className="w-3 h-3 mr-1" />
+                                  {time}
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>

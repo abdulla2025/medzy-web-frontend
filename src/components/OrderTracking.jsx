@@ -110,7 +110,7 @@ const OrderTracking = ({ onBack }) => {
         
         // Fetch vendor reviews for this order
         try {
-          const vendorReviewsResponse = await fetch(`${API_ENDPOINTS.BASE_URL}/api/reviews/order/${order._id}`, {
+          const vendorReviewsResponse = await fetch(`/api/reviews/order/${order._id}`, {
             headers: getAuthHeaders()
           });
           if (vendorReviewsResponse.ok) {
@@ -126,7 +126,7 @@ const OrderTracking = ({ onBack }) => {
         
         // Fetch service review for this order
         try {
-          const serviceReviewResponse = await fetch(`${API_ENDPOINTS.BASE_URL}/api/service-reviews/order/${order._id}`, {
+          const serviceReviewResponse = await fetch(`/api/service-reviews/order/${order._id}`, {
             headers: getAuthHeaders()
           });
           if (serviceReviewResponse.ok) {

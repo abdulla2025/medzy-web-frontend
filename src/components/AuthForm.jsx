@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Heart, User, Mail, Phone, Calendar, UserCheck, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 import { useDarkMode } from '../context/DarkModeContext';
-import EmailVerification from './EmailVerification';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 import LoginConfirmationModal from './LoginConfirmationModal';
 
-const AuthForm = ({ setShowHomepage, onResetComplete, startWithSignup = false, onAuthComplete }) => {
+const AuthForm = ({ setShowHomepage, onResetComplete, startWithSignup = false, onAuthComplete, onVerificationStart, onVerificationEnd }) => {
   const { isDarkMode } = useDarkMode();
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(!startWithSignup); // Start with sign-up if startWithSignup is true
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [showLoginConfirmation, setShowLoginConfirmation] = useState(false);
   const [existingSessionData, setExistingSessionData] = useState(null);
-  const [verificationEmail, setVerificationEmail] = useState('');
   const [resetToken, setResetToken] = useState('');
   const { login, signup, forceLogin } = useAuth();
   const { showNotification } = useNotification();
@@ -74,8 +73,7 @@ const AuthForm = ({ setShowHomepage, onResetComplete, startWithSignup = false, o
           setExistingSessionData(null);
         } else {
           if (result.errorType === 'EMAIL_NOT_VERIFIED') {
-            setVerificationEmail(formData.email);
-            setShowEmailVerification(true);
+            navigate(`/verify-email?email=${encodeURIComponent(formData.email)}`);
             showNotification('Please verify your email address to continue', 'warning');
           } else {
             setError(result.error);
@@ -83,18 +81,38 @@ const AuthForm = ({ setShowHomepage, onResetComplete, startWithSignup = false, o
           }
         }
       } else {
+        // SIGNUP PROCESS
+        console.log('🔍 Starting signup with email:', formData.email);
         result = await signup(formData);
+        console.log('🔍 Signup result:', result);
+        
         if (result.success) {
+          console.log('🔍 Signup successful, checking verification requirement...');
+          console.log('🔍 result.requiresVerification:', result.requiresVerification);
+          
           if (result.requiresVerification) {
-            setVerificationEmail(formData.email);
-            setShowEmailVerification(true);
-            showNotification('Account created! Please verify your email to continue', 'success');
+            // REDIRECT TO VERIFICATION PAGE WITH EMAIL PARAMETER
+            console.log('🔍 Redirecting to verification page for email:', formData.email);
+            
+            // Notify parent that verification flow started
+            if (onVerificationStart) {
+              onVerificationStart();
+            }
+            
+            // Navigate to the verification page with email as query parameter
+            navigate(`/verify-email?email=${encodeURIComponent(formData.email)}`);
+            
+            console.log('🔍 Navigation initiated to verification page');
+            setLoading(false);
+            return; // Exit early to prevent any other state changes
           } else {
+            console.log('🔍 No verification required');
             setIsLogin(true);
             setError('Signup successful! Please log in.');
-            if (setShowHomepage) setShowHomepage(false); // Ensure login form is shown
+            if (setShowHomepage) setShowHomepage(false);
           }
         } else {
+          console.log('🔍 Signup failed:', result.error);
           setError(result.error);
         }
       }
@@ -133,14 +151,7 @@ const AuthForm = ({ setShowHomepage, onResetComplete, startWithSignup = false, o
     });
   };
 
-  const handleEmailVerified = () => {
-    setShowEmailVerification(false);
-    setIsLogin(true);
-    showNotification('Email verified successfully! You can now sign in.', 'success');
-  };
-
   const handleBackToAuth = () => {
-    setShowEmailVerification(false);
     setShowForgotPassword(false);
     setShowResetPassword(false);
     setError('');
@@ -159,16 +170,8 @@ const AuthForm = ({ setShowHomepage, onResetComplete, startWithSignup = false, o
     }
   };
 
-  // Show email verification component
-  if (showEmailVerification) {
-    return (
-      <EmailVerification
-        email={verificationEmail}
-        onBack={handleBackToAuth}
-        onVerified={handleEmailVerified}
-      />
-    );
-  }
+  // Render main auth form
+  console.log('🔍 AuthForm rendering main form');
 
   // Show forgot password component
   if (showForgotPassword) {

@@ -4,6 +4,7 @@ import { User, Shield, Users, Heart, Phone, Mail, Home, CreditCard } from 'lucid
 import AuthForm from './components/AuthForm';
 import Dashboard from './components/Dashboard';
 import Homepage from './components/Homepage';
+import VerificationPage from './components/VerificationPage';
 import PaymentStatus from './components/PaymentStatus';
 import PaymentSuccess from './components/PaymentSuccess';
 import PaymentFailed from './components/PaymentFailed';
@@ -26,12 +27,12 @@ function AppContent() {
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [startWithSignup, setStartWithSignup] = useState(false); // Track if should start with sign-up form
   const [showPaymentDemo, setShowPaymentDemo] = useState(false); // Track if showing payment demo
+  const [isInVerificationFlow, setIsInVerificationFlow] = useState(false); // Track if in email verification
 
   // Check for reset token in URL on component mount
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const resetToken = urlParams.get('token');
-    const testMode = urlParams.get('test');
     const paymentDemo = urlParams.get('payment-demo');
     
     if (resetToken) {
@@ -43,14 +44,7 @@ function AppContent() {
       setShowPaymentDemo(true);
       setShowHomepage(false);
     }
-    
-    // Show test component if test=medicine in URL
-    if (testMode === 'medicine') {
-      return;
-    }
   }, [location]);
-
-  // Test functionality removed - MedicineSearchTest component was deleted
 
   // Handle reset password completion
   const handleResetComplete = () => {
@@ -116,8 +110,9 @@ function AppContent() {
     );
   }
 
-  // Always show homepage if showHomepage is true, regardless of login status
-  if (showHomepage) {
+  // Always show homepage if showHomepage is true, but NOT if in verification flow
+  if (showHomepage && !isInVerificationFlow) {
+    console.log('🔍 App.jsx: Showing homepage because showHomepage is true and not in verification');
     return (
       <Homepage 
         onGetStarted={() => {
@@ -145,6 +140,7 @@ function AppContent() {
   }
 
   if (!user) {
+    console.log('🔍 App.jsx: No user, showing AuthForm');
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="fixed top-4 left-4 z-50">
@@ -163,6 +159,15 @@ function AppContent() {
           setShowHomepage={setShowHomepage} 
           startWithSignup={startWithSignup}
           onAuthComplete={() => setStartWithSignup(false)}
+          onVerificationStart={() => {
+            console.log('🔍 App.jsx: Verification flow started');
+            setIsInVerificationFlow(true);
+            setShowHomepage(false);
+          }}
+          onVerificationEnd={() => {
+            console.log('🔍 App.jsx: Verification flow ended');
+            setIsInVerificationFlow(false);
+          }}
         />
       </div>
     );
@@ -263,6 +268,9 @@ function AppRoutes() {
       
       {/* Demo SSL Commerce route */}
       <Route path="/payment/demo-sslcommerz" element={<DemoSSLCommerzPage />} />
+      
+      {/* Email Verification route */}
+      <Route path="/verify-email" element={<VerificationPage />} />
       
       {/* Medicine Reminder Manager route */}
       <Route path="/medicine-reminders" element={<MedicineReminderManager />} />

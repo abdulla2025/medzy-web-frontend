@@ -409,18 +409,19 @@ export const AuthProvider = ({ children }) => {
       });
 
       const data = await response.json();
+      console.log('🔍 Backend response data:', data); // Temporary debug
 
       if (response.ok) {
         setLoading(false);
         
-        if (addNotification) {
-          addNotification('success', 'Registration successful! Please check your email for verification.');
-        }
+        // Don't show notification here - let the component handle it
         
-        return { 
+        const result = { 
           success: true, 
           requiresVerification: data.requiresVerification || false 
         };
+        console.log('🔍 Returning result:', result); // Temporary debug
+        return result;
       } else {
         const errorMessage = data.message || 'Registration failed';
         setAuthError(errorMessage);

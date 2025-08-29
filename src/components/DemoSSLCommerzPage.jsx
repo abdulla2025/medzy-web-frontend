@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, X, CreditCard, Shield, Clock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const DemoSSLCommerzPage = () => {
   const [paymentStatus, setPaymentStatus] = useState('pending');
   const [amount, setAmount] = useState('0');
   const [orderId, setOrderId] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Get parameters from URL
@@ -28,13 +30,13 @@ const DemoSSLCommerzPage = () => {
       if (status === 'success') {
         // Create a transaction ID for the demo
         const tranId = `SSL_DEMO_${orderId}_${Date.now()}`;
-        // Redirect to success with proper parameters
-        window.location.href = `/payment/success/${tranId}?status=valid&amount=${amount}&orderId=${orderId}&gateway=sslcommerz&demo=true`;
+        // Navigate to success with proper parameters using React Router
+        navigate(`/payment/success/${tranId}?status=valid&amount=${amount}&orderId=${orderId}&gateway=sslcommerz&demo=true`);
       } else {
         // Create a transaction ID for the demo failure
         const tranId = `SSL_DEMO_${orderId}_${Date.now()}`;
-        // Redirect to failure with proper parameters
-        window.location.href = `/payment/failed/${tranId}?reason=Payment%20declined&orderId=${orderId}&gateway=sslcommerz&demo=true`;
+        // Navigate to failure with proper parameters using React Router
+        navigate(`/payment/failed/${tranId}?reason=Payment%20declined&orderId=${orderId}&gateway=sslcommerz&demo=true`);
       }
     }, 3000);
   };

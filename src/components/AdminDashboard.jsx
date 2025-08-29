@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, MessageCircle, Trash2, Eye, CheckCircle, Clock, AlertTriangle, UserPlus, Settings, BarChart3, Download, Heart, Calendar, Star, CreditCard } from 'lucide-react';
+import { Users, Trash2, Eye, CheckCircle, Clock, UserPlus, Settings, BarChart3, Download, Heart, Calendar, Star, CreditCard } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 import { API_ENDPOINTS } from '../config/api';
@@ -8,19 +8,15 @@ import DailyUpdates from './DailyUpdates';
 import AdminReviews from './AdminReviews';
 import AdminPaymentManagement from './AdminPaymentManagement';
 import AdminRevenueManagement from './AdminRevenueManagement';
-import AdminDisputeManagement from './AdminDisputeManagement';
 import AdminSupportManagement from './AdminSupportManagement';
 import TopBar from './TopBar';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('users');
   const [users, setUsers] = useState([]);
-  const [supportTickets, setSupportTickets] = useState([]);
   const [medicineRequests, setMedicineRequests] = useState([]);
-  const [stats, setStats] = useState({ users: {}, support: {}, requests: {} });
+  const [stats, setStats] = useState({ users: {}, requests: {} });
   const [loading, setLoading] = useState(true);
-  const [selectedTicket, setSelectedTicket] = useState(null);
-  const [adminResponse, setAdminResponse] = useState('');
   const { user, getAuthHeaders } = useAuth();
   const { success, error, warning, showConfirm } = useNotification();
 
@@ -77,21 +73,12 @@ const AdminDashboard = () => {
         setStats(prev => ({ ...prev, requests: stats }));
       }
 
-      // Fetch support tickets
-      const ticketsResponse = await fetch(`${API_ENDPOINTS.BASE_URL}/api/support`, { headers });
-      if (ticketsResponse.ok) {
-        const ticketsData = await ticketsResponse.json();
-        setSupportTickets(ticketsData);
-      }
-
       // Fetch stats
       const userStatsResponse = await fetch(`${API_ENDPOINTS.BASE_URL}/api/users/stats`, { headers });
-      const supportStatsResponse = await fetch(`${API_ENDPOINTS.BASE_URL}/api/support/stats`, { headers });
       
-      if (userStatsResponse.ok && supportStatsResponse.ok) {
+      if (userStatsResponse.ok) {
         const userStats = await userStatsResponse.json();
-        const supportStats = await supportStatsResponse.json();
-        setStats({ users: userStats, support: supportStats });
+        setStats({ users: userStats });
       }
 
       setLoading(false);
@@ -160,29 +147,6 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleUpdateTicket = async (ticketId, status, response) => {
-    if (!user || !localStorage.getItem('token')) {
-      return;
-    }
-    
-    try {
-      const updateResponse = await fetch(`${API_ENDPOINTS.BASE_URL}/api/support/${ticketId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ status, adminResponse: response })
-      });
-
-      if (updateResponse.ok) {
-        fetchData();
-        setSelectedTicket(null);
-        setAdminResponse('');
-        success('✅ Ticket updated successfully');
-      }
-    } catch (err) {
-      error('❌ Error updating ticket. Please try again.');
-    }
-  };
-
   const handleCreateUser = async (e) => {
     e.preventDefault();
     
@@ -236,16 +200,6 @@ const AdminDashboard = () => {
     document.body.removeChild(link);
   };
 
-  const getStatusColor = (status) => {
-    const colors = {
-      'open': 'bg-red-100 text-red-800',
-      'in_progress': 'bg-yellow-100 text-yellow-800',
-      'resolved': 'bg-green-100 text-green-800',
-      'closed': 'bg-gray-100 text-gray-800'
-    };
-    return colors[status] || 'bg-gray-100 text-gray-800';
-  };
-
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64 bg-gray-50 dark:bg-gray-900">
@@ -295,42 +249,6 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border dark:border-gray-700">
-          <div className="flex items-center space-x-3">
-            <div className="bg-green-100 dark:bg-green-900/20 p-3 rounded-lg">
-              <MessageCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Support Tickets</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.support.total || 0}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border dark:border-gray-700">
-          <div className="flex items-center space-x-3">
-            <div className="bg-yellow-100 dark:bg-yellow-900/20 p-3 rounded-lg">
-              <Clock className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Open Tickets</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.support.open || 0}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border dark:border-gray-700">
-          <div className="flex items-center space-x-3">
-            <div className="bg-red-100 dark:bg-red-900/20 p-3 rounded-lg">
-              <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Complaints</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.support.complaints || 0}</p>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Tab Navigation */}
@@ -347,17 +265,6 @@ const AdminDashboard = () => {
             >
               <Users className="h-4 w-4 inline mr-2" />
               User Management
-            </button>
-            <button
-              onClick={() => setActiveTab('support')}
-              className={`px-6 py-3 font-medium text-sm ${
-                activeTab === 'support'
-                  ? 'border-b-2 border-blue-600 text-blue-600 dark:text-blue-400'
-                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
-              }`}
-            >
-              <MessageCircle className="h-4 w-4 inline mr-2" />
-              Support Tickets
             </button>
             <button
               onClick={() => setActiveTab('medicine-requests')}
@@ -392,19 +299,6 @@ const AdminDashboard = () => {
               <CreditCard className="h-4 w-4 inline mr-2" />
               Payments
             </button>
-
-            <button
-              onClick={() => setActiveTab('disputes')}
-              className={`px-6 py-3 font-medium text-sm ${
-                activeTab === 'disputes'
-                  ? 'border-b-2 border-blue-600 text-blue-600 dark:text-blue-400'
-                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
-              }`}
-            >
-              <AlertTriangle className="h-4 w-4 inline mr-2" />
-              Disputes
-            </button>
-            
             <button
               onClick={() => setActiveTab('enhanced-support')}
               className={`px-6 py-3 font-medium text-sm ${
@@ -433,7 +327,6 @@ const AdminDashboard = () => {
 
         <div className="p-6">
           {activeTab === 'enhanced-support' && <AdminSupportManagement />}
-          {activeTab === 'disputes' && <AdminDisputeManagement />}
           {activeTab === 'users' && (
             <div>
               <div className="flex justify-between items-center mb-6">
@@ -568,70 +461,6 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          {activeTab === 'support' && (
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Support Tickets ({supportTickets.length})</h3>
-                <div className="flex space-x-2">
-                  <select className="px-3 py-1 border border-gray-300 rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
-                    <option>All Status</option>
-                    <option>Open</option>
-                    <option>In Progress</option>
-                    <option>Resolved</option>
-                    <option>Closed</option>
-                  </select>
-                  <select className="px-3 py-1 border border-gray-300 rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
-                    <option>All Types</option>
-                    <option>Complaint</option>
-                    <option>Help</option>
-                    <option>Suggestion</option>
-                  </select>
-                </div>
-              </div>
-              
-              <div className="space-y-4">
-                {supportTickets.map((ticket) => (
-                  <div key={ticket.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow dark:border-gray-700 dark:bg-gray-800">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <h4 className="font-medium text-gray-900 dark:text-white">{ticket.subject}</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 capitalize">
-                          {ticket.type} • Customer ID: {ticket.customerId}
-                        </p>
-                      </div>
-                      <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(ticket.status)}`}>
-                        {ticket.status.replace('_', ' ')}
-                      </span>
-                    </div>
-                    
-                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">{ticket.message}</p>
-                    
-                    {ticket.adminResponse && (
-                      <div className="bg-blue-50 dark:bg-blue-900/50 p-3 rounded-lg mb-3">
-                        <p className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-1">Admin Response:</p>
-                        <p className="text-sm text-blue-700 dark:text-blue-300">{ticket.adminResponse}</p>
-                      </div>
-                    )}
-                    
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {new Date(ticket.createdAt).toLocaleDateString()}
-                      </span>
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => setSelectedTicket(ticket)}
-                          className="text-blue-600 hover:text-blue-700 text-sm font-medium px-3 py-1 rounded hover:bg-blue-50 transition-colors dark:text-blue-400 dark:hover:text-blue-300 dark:hover:bg-blue-900/50"
-                        >
-                          Respond
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
 
         </div>
       </div>
@@ -760,62 +589,6 @@ const AdminDashboard = () => {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
-
-      {/* Response Modal */}
-      {selectedTicket && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-md w-full p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Respond to Ticket</h3>
-            
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Status
-              </label>
-              <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                defaultValue={selectedTicket.status}
-                onChange={(e) => setSelectedTicket({...selectedTicket, status: e.target.value})}
-              >
-                <option value="open">Open</option>
-                <option value="in_progress">In Progress</option>
-                <option value="resolved">Resolved</option>
-                <option value="closed">Closed</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Response
-              </label>
-              <textarea
-                rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter your response..."
-                value={adminResponse}
-                onChange={(e) => setAdminResponse(e.target.value)}
-              />
-            </div>
-
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => {
-                  setSelectedTicket(null);
-                  setAdminResponse('');
-                }}
-                className="px-4 py-2 text-gray-600 hover:text-gray-700"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => handleUpdateTicket(selectedTicket.id, selectedTicket.status, adminResponse)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                Update Ticket
-              </button>
-            </div>
           </div>
         </div>
       )}

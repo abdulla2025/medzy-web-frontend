@@ -39,6 +39,50 @@ if (!FINAL_API_BASE_URL) {
   console.error('❌ FINAL_API_BASE_URL is not defined!');
 }
 
+// Database status check utility
+export const checkDatabaseStatus = async () => {
+  try {
+    const response = await fetch(`${FINAL_API_BASE_URL}/api/health`, {
+      method: 'GET',
+      timeout: 5000 // 5 second timeout
+    });
+    const data = await response.json();
+    return {
+      isHealthy: response.ok && data.database === 'connected',
+      status: data.database || 'unknown',
+      message: data.message || 'Unknown status'
+    };
+  } catch (error) {
+    return {
+      isHealthy: false,
+      status: 'error',
+      message: error.message || 'Connection failed'
+    };
+  }
+};
+
+// Enhanced fetch wrapper with database fallback
+export const robustApiRequest = async (endpoint, options = {}) => {
+  try {
+    const response = await fetch(endpoint, {
+      ...options,
+      timeout: 10000 // 10 second timeout for API calls
+    });
+    
+    // Handle 503 Service Unavailable (database timeout)
+    if (response.status === 503) {
+      throw new Error('Database temporarily unavailable. Please try again in a few moments.');
+    }
+    
+    return response;
+  } catch (error) {
+    if (error.message.includes('timeout') || error.message.includes('Connection timeout')) {
+      throw new Error('Service is currently experiencing high traffic. Please try again shortly.');
+    }
+    throw error;
+  }
+};
+
 // API endpoints
 export const API_ENDPOINTS = {
   // Base URL
