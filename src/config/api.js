@@ -17,12 +17,19 @@ export const API_ENDPOINTS = {
     FORGOT_PASSWORD: `${API_BASE_URL}/api/auth/forgot-password`,
     RESET_PASSWORD: `${API_BASE_URL}/api/auth/reset-password`,
     VERIFY_EMAIL: `${API_BASE_URL}/api/auth/verify-email`,
+    FORCE_LOGIN: `${API_BASE_URL}/api/auth/force-login`,
   },
   
   // Users
   USERS: {
     BASE: `${API_BASE_URL}/api/users`,
     PROFILE: `${API_BASE_URL}/api/profile`,
+  },
+  
+  // Profile
+  PROFILE: {
+    BASE: `${API_BASE_URL}/api/profile`,
+    CHANGE_PASSWORD: `${API_BASE_URL}/api/profile/change-password`,
   },
   
   // Medicines
@@ -34,6 +41,9 @@ export const API_ENDPOINTS = {
   // Orders
   ORDERS: {
     BASE: `${API_BASE_URL}/api/orders`,
+    VENDOR: {
+      STATS: `${API_BASE_URL}/api/orders/vendor/stats`,
+    }
   },
   
   // Cart
@@ -44,6 +54,7 @@ export const API_ENDPOINTS = {
   // Medicine Requests
   MEDICINE_REQUESTS: {
     BASE: `${API_BASE_URL}/api/medicine-requests`,
+    MY_REQUESTS: `${API_BASE_URL}/api/medicine-requests/my-requests`,
   },
   
   // Donations
@@ -57,12 +68,26 @@ export const API_ENDPOINTS = {
     BKASH: `${API_BASE_URL}/api/payments/bkash`,
     SSLCOMMERZ: `${API_BASE_URL}/api/payments/sslcommerz`,
     STRIPE: `${API_BASE_URL}/api/payments/stripe`,
+    PROCESS_SUCCESS: `${API_BASE_URL}/api/payments/process-success`,
+    PROCESS_FAILURE: `${API_BASE_URL}/api/payments/process-failure`,
+    VENDOR: {
+      EARNINGS: `${API_BASE_URL}/api/payments/vendor/earnings`,
+    }
   },
   
   // Reviews
   REVIEWS: {
     BASE: `${API_BASE_URL}/api/reviews`,
-    SERVICE: `${API_BASE_URL}/api/service-reviews`,
+    PUBLIC: `${API_BASE_URL}/api/reviews/public`,
+    VENDOR: {
+      MY_REVIEWS: `${API_BASE_URL}/api/reviews/vendor/my-reviews`,
+    }
+  },
+  
+  // Service Reviews
+  SERVICE_REVIEWS: {
+    BASE: `${API_BASE_URL}/api/service-reviews`,
+    PUBLIC: `${API_BASE_URL}/api/service-reviews/public`,
   },
   
   // Support

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Star, Package, X, CheckCircle, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 import ReviewModal from './ReviewModal';
 
 const OrderReviewModal = ({ isOpen, onClose, order, onReviewSubmitted }) => {
@@ -18,7 +19,7 @@ const OrderReviewModal = ({ isOpen, onClose, order, onReviewSubmitted }) => {
 
   const handleReviewSubmit = async (reviewData) => {
     try {
-      const response = await fetch('/api/reviews', {
+      const response = await fetch(API_ENDPOINTS.REVIEWS.BASE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

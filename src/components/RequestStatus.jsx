@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS, getAuthHeaders } from '../config/api';
 import LoadingSpinner from './LoadingSpinner';
 
 const RequestStatus = () => {
@@ -16,7 +17,7 @@ const RequestStatus = () => {
   const fetchRequests = async () => {
     try {
       const response = await axios.get(
-        '/api/medicine-requests/my-requests',
+        API_ENDPOINTS.MEDICINE_REQUESTS.MY_REQUESTS,
         {
           headers: {
             ...getAuthHeaders()

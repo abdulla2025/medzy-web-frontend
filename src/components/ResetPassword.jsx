@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff, Lock, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNotification } from '../context/NotificationContext';
 import { API_ENDPOINTS } from '../config/api';
+import { API_ENDPOINTS } from '../config/api';
 
 const ResetPassword = ({ token, onSuccess }) => {
   const [formData, setFormData] = useState({

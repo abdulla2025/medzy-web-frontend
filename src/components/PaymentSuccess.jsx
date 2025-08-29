@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { CheckCircle, ShoppingBag, Clock, CreditCard, Home } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const PaymentSuccess = () => {
   const location = useLocation();
@@ -104,7 +105,7 @@ const PaymentSuccess = () => {
       }
 
       // For authenticated users, process the demo payment in backend
-      const response = await fetch('/api/payments/process-success', {
+      const response = await fetch(API_ENDPOINTS.PAYMENTS.PROCESS_SUCCESS, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -225,7 +226,7 @@ const PaymentSuccess = () => {
       // For SSLCommerz sandbox, we need to simulate success based on the gateway parameter or tranId presence
       if (params.gateway === 'sslcommerz' || tranId) {
         // Find the most recent pending payment for this user and mark it as successful
-        const response = await fetch('/api/payments/process-success', {
+        const response = await fetch(API_ENDPOINTS.PAYMENTS.PROCESS_SUCCESS, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

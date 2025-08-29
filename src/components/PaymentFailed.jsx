@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { XCircle, RefreshCw, ShoppingCart, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const PaymentFailed = () => {
   const location = useLocation();
@@ -50,7 +51,7 @@ const PaymentFailed = () => {
       console.log('🔄 Processing SSLCommerz failure callback:', { tranId, reason });
 
       if (token) {
-        const response = await fetch('/api/payments/process-failure', {
+        const response = await fetch(API_ENDPOINTS.PAYMENTS.PROCESS_FAILURE, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

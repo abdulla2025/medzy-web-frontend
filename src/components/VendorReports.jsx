@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS, getAuthHeaders } from '../config/api';
 
 const VendorReports = () => {
   const [stats, setStats] = useState(null);
@@ -74,7 +75,7 @@ const VendorReports = () => {
 
   const fetchEarnings = async () => {
     try {
-      const response = await fetch('/api/payments/vendor/earnings', {
+      const response = await fetch(API_ENDPOINTS.PAYMENTS.VENDOR.EARNINGS, {
         headers: getAuthHeaders()
       });
 

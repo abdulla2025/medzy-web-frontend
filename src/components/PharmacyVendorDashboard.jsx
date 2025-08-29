@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Package, TrendingUp, Clock, AlertCircle, Heart, Pill, Users, BarChart3, Plus, Settings, DollarSign } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS, getAuthHeaders } from '../config/api';
 import MedicineManagement from './MedicineManagement';
 import VendorOrderManagement from './VendorOrderManagement';
 import VendorReports from './VendorReports';
@@ -42,10 +43,10 @@ const PharmacyVendorDashboard = () => {
 
       // Fetch vendor statistics
       const [statsResponse, medicinesResponse] = await Promise.all([
-        fetch('/api/orders/vendor/stats?timeframe=30d', {
+        fetch(API_ENDPOINTS.ORDERS.VENDOR.STATS + '?timeframe=30d', {
           headers: getAuthHeaders()
         }),
-        fetch('/api/medicines/search?vendorId=' + user?.id, {
+        fetch(API_ENDPOINTS.MEDICINES.SEARCH + '?vendorId=' + user?.id, {
           headers: getAuthHeaders()
         })
       ]);

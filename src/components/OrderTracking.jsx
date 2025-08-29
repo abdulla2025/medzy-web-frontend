@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 import Modal from './Modal';
 import OrderReviewModal from './OrderReviewModal';
 import ServiceReviewModal from './ServiceReviewModal';
@@ -207,7 +208,7 @@ const OrderTracking = ({ onBack }) => {
 
   const handleServiceReviewSubmit = async (reviewData) => {
     try {
-      const response = await fetch('/api/service-reviews', {
+      const response = await fetch(API_ENDPOINTS.SERVICE_REVIEWS.BASE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
