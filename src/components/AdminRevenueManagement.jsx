@@ -48,7 +48,7 @@ const AdminRevenueManagement = () => {
       if (dateRange.startDate) queryParams.append('startDate', dateRange.startDate);
       if (dateRange.endDate) queryParams.append('endDate', dateRange.endDate);
 
-      const response = await fetch(`/api/payments/stats?${queryParams}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/stats?${queryParams}`, {
         headers: getAuthHeaders()
       });
 
@@ -72,7 +72,7 @@ const AdminRevenueManagement = () => {
       if (dateRange.startDate) queryParams.append('startDate', dateRange.startDate);
       if (dateRange.endDate) queryParams.append('endDate', dateRange.endDate);
 
-      const response = await fetch(`/api/payments/revenue/vendors?${queryParams}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/revenue/vendors?${queryParams}`, {
         headers: getAuthHeaders()
       });
 

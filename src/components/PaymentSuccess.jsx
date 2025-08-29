@@ -65,7 +65,7 @@ const PaymentSuccess = () => {
 
   const fetchPaymentDetails = async (paymentId) => {
     try {
-      const response = await fetch(`/api/payments/${paymentId}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/${paymentId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -176,7 +176,7 @@ const PaymentSuccess = () => {
       console.log('🎉 Processing direct SSL Commerce callback:', { tranId, amount, orderId });
       
       // Find the payment by transaction ID to get details
-      const response = await fetch(`/api/payments/verify/${tranId}?gateway=sslcommerz`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/verify/${tranId}?gateway=sslcommerz`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

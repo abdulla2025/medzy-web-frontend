@@ -68,7 +68,7 @@ const AdminPaymentManagement = () => {
         if (!filters[key]) queryParams.delete(key);
       });
 
-      const response = await fetch(`/api/payments?${queryParams}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments?${queryParams}`, {
         headers: getAuthHeaders()
       });
 
@@ -97,9 +97,9 @@ const AdminPaymentManagement = () => {
       if (filters.startDate) queryParams.append('startDate', filters.startDate);
       if (filters.endDate) queryParams.append('endDate', filters.endDate);
 
-      console.log('🔍 Fetching payment stats from:', `/api/payments/stats?${queryParams}`);
+      console.log('🔍 Fetching payment stats from:', `${API_ENDPOINTS.BASE_URL}/api/payments/stats?${queryParams}`);
       
-      const response = await fetch(`/api/payments/stats?${queryParams}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/stats?${queryParams}`, {
         headers: getAuthHeaders()
       });
 
@@ -128,7 +128,7 @@ const AdminPaymentManagement = () => {
 
   const updatePaymentStatus = async (paymentId, newStatus) => {
     try {
-      const response = await fetch(`/api/payments/${paymentId}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/${paymentId}`, {
         method: 'PUT',
         headers: getAuthHeaders(),
         body: JSON.stringify({ status: newStatus })
@@ -149,7 +149,7 @@ const AdminPaymentManagement = () => {
   const openPaymentModal = async (payment) => {
     try {
       // Fetch detailed payment information including refund eligibility
-      const response = await fetch(`/api/payments/${payment._id}/refund-details`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/${payment._id}/refund-details`, {
         headers: getAuthHeaders()
       });
 
@@ -184,7 +184,7 @@ const AdminPaymentManagement = () => {
 
   const handleManualRefund = async (paymentId, refundData) => {
     try {
-      const response = await fetch(`/api/payments/${paymentId}/manual-refund`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/${paymentId}/manual-refund`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(refundData)

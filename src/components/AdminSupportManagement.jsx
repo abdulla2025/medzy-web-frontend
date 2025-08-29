@@ -80,7 +80,7 @@ const AdminSupportManagement = () => {
         if (!filters[key]) queryParams.delete(key);
       });
 
-      const response = await fetch(`/api/support?${queryParams}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/support?${queryParams}`, {
         headers: getAuthHeaders()
       });
 
@@ -121,7 +121,7 @@ const AdminSupportManagement = () => {
 
   const handleTicketAction = async (ticketId, updateData) => {
     try {
-      const response = await fetch(`/api/support/${ticketId}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/support/${ticketId}`, {
         method: 'PATCH',
         headers: getAuthHeaders(),
         body: JSON.stringify(updateData)
@@ -145,7 +145,7 @@ const AdminSupportManagement = () => {
 
   const handleProcessRefund = async (ticketId, refundData) => {
     try {
-      const response = await fetch(`/api/support/${ticketId}/process-refund`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/support/${ticketId}/process-refund`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(refundData)
