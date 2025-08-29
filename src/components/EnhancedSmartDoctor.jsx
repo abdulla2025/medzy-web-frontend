@@ -52,6 +52,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 import SmartDoctorChatInterface from './SmartDoctorChatInterface';
+import { API_ENDPOINTS } from '../config/api';
 
 const EnhancedSmartDoctor = () => {
   console.log('EnhancedSmartDoctor component loaded');
@@ -94,7 +95,7 @@ const EnhancedSmartDoctor = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await fetch('/api/medical-profile/medical-history', {
+      const response = await fetch(API_ENDPOINTS.MEDICAL_PROFILE.MEDICAL_HISTORY, {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -108,7 +109,7 @@ const EnhancedSmartDoctor = () => {
 
   const fetchMedicineReminders = async () => {
     try {
-      const response = await fetch('/api/medicine-reminders', {
+      const response = await fetch(API_ENDPOINTS.MEDICINE_REMINDERS.BASE, {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -128,7 +129,7 @@ const EnhancedSmartDoctor = () => {
 
     setIsAnalyzing(true);
     try {
-      const response = await fetch('/api/smart-doctor/analyze-symptoms', {
+      const response = await fetch(API_ENDPOINTS.SMART_DOCTOR.ANALYZE_SYMPTOMS, {
         method: 'POST',
         headers: {
           ...getAuthHeaders(),
@@ -250,7 +251,7 @@ const EnhancedSmartDoctor = () => {
     formData.append('prescription', file);
 
     try {
-      const response = await fetch('/api/smart-doctor/extract-prescription', {
+      const response = await fetch(API_ENDPOINTS.SMART_DOCTOR.EXTRACT_PRESCRIPTION, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: formData
@@ -299,7 +300,7 @@ const EnhancedSmartDoctor = () => {
     }
 
     try {
-      const response = await fetch('/api/medicine-reminders', {
+      const response = await fetch(API_ENDPOINTS.MEDICINE_REMINDERS.BASE, {
         method: 'POST',
         headers: {
           ...getAuthHeaders(),

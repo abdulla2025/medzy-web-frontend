@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 import { 
+import { API_ENDPOINTS } from '../config/api';
   X, 
   Star, 
   Gift, 
@@ -42,7 +43,7 @@ const CustomerPointsPopup = ({ isOpen, onClose, customerId = null }) => {
         transactionEndpoint = `/api/customer-points/admin/${targetCustomerId}/transactions?limit=10`;
       } else {
         // Customer viewing their own points
-        balanceEndpoint = '/api/customer-points/balance';
+        balanceEndpoint = API_ENDPOINTS.CUSTOMER_POINTS.BALANCE;
         transactionEndpoint = '/api/customer-points/transactions?limit=10';
       }
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import LoadingSpinner from './LoadingSpinner';
+import { API_ENDPOINTS } from '../config/api';
 
 const MedicineRequestForm = () => {
   const [formData, setFormData] = useState({
@@ -44,7 +45,7 @@ const MedicineRequestForm = () => {
         prescriptionImage: formData.prescriptionImage || undefined
       };
       
-      const response = await axios.post('/api/medicine-requests', requestData, {
+      const response = await axios.post(API_ENDPOINTS.MEDICINE_REQUESTS.BASE, requestData, {
         headers: getAuthHeaders()
       });
 

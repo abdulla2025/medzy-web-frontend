@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 import Modal from './Modal';
 import MedicineSearchEnhanced from './MedicineSearchEnhanced';
 import Cart from './Cart';
@@ -34,6 +35,7 @@ import SmartDoctorChatInterface from './SmartDoctorChatInterface';
 import EnhancedSmartDoctorClean from './EnhancedSmartDoctorClean';
 import PaymentHistory from './PaymentHistory';
 import TopBar from './TopBar';
+import { API_ENDPOINTS } from '../config/api';
 
 const CustomerDashboard = () => {
   const [tickets, setTickets] = useState([]);
@@ -93,7 +95,7 @@ const CustomerDashboard = () => {
     }
     
     try {
-      const response = await fetch('/api/cart/count', {
+      const response = await fetch(API_ENDPOINTS.CART.COUNT, {
         headers: getAuthHeaders()
       });
 
@@ -112,7 +114,7 @@ const CustomerDashboard = () => {
     }
     
     try {
-      const response = await fetch('/api/orders/my-orders?limit=1', {
+      const response = await fetch(API_ENDPOINTS.ORDERS.MY_ORDERS + '?limit=1', {
         headers: getAuthHeaders()
       });
 
@@ -132,7 +134,7 @@ const CustomerDashboard = () => {
     }
     
     try {
-      const response = await fetch('/api/support/my-tickets', {
+      const response = await fetch(API_ENDPOINTS.SUPPORT.MY_TICKETS, {
         headers: getAuthHeaders()
       });
 

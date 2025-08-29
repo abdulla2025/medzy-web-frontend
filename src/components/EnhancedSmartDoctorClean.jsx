@@ -55,6 +55,7 @@ import {
 } from 'lucide-react';
 
 import SmartDoctorChatInterface from './SmartDoctorChatInterface';
+import { API_ENDPOINTS } from '../config/api';
 
 const EnhancedSmartDoctorClean = ({ onNavigateToMedicines = null }) => {
   // Section navigation state
@@ -285,7 +286,7 @@ Please provide real medical analysis based on the symptoms, not generic response
   const callBackendAI = async (userSymptoms) => {
     const token = localStorage.getItem('token');
     
-    const response = await fetch('/api/smart-doctor/analyze-symptoms', {
+    const response = await fetch(API_ENDPOINTS.SMART_DOCTOR.ANALYZE_SYMPTOMS, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -594,7 +595,7 @@ Please provide real medical analysis based on the symptoms, not generic response
     setIsLoadingProfile(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/smart-doctor/personalized-profile', {
+      const response = await fetch(API_ENDPOINTS.SMART_DOCTOR.PERSONALIZED_PROFILE, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -637,7 +638,7 @@ Please provide real medical analysis based on the symptoms, not generic response
     setIsUpdatingProfile(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/smart-doctor/personalized-profile', {
+      const response = await fetch(API_ENDPOINTS.SMART_DOCTOR.PERSONALIZED_PROFILE, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -669,7 +670,7 @@ Please provide real medical analysis based on the symptoms, not generic response
     setIsLoadingMedicineRecs(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/smart-doctor/medicine-recommendations', {
+      const response = await fetch(API_ENDPOINTS.SMART_DOCTOR.MEDICINE_RECOMMENDATIONS, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -728,7 +729,7 @@ Please provide real medical analysis based on the symptoms, not generic response
       }
 
       // Upload and process the prescription
-      const response = await fetch('/api/smart-doctor/extract-prescription', {
+      const response = await fetch(API_ENDPOINTS.SMART_DOCTOR.EXTRACT_PRESCRIPTION, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, ArrowLeft, RefreshCw, CheckCircle } from 'lucide-react';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const EmailVerification = ({ email, onBack, onVerified }) => {
   const [verificationCode, setVerificationCode] = useState('');
@@ -31,7 +32,7 @@ const EmailVerification = ({ email, onBack, onVerified }) => {
 
     setLoading(true);
     try {
-      const response = await fetch('/api/auth/verify-email', {
+      const response = await fetch(API_ENDPOINTS.AUTH.VERIFY_EMAIL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -61,7 +62,7 @@ const EmailVerification = ({ email, onBack, onVerified }) => {
   const handleResend = async () => {
     setResendLoading(true);
     try {
-      const response = await fetch('/api/auth/resend-verification', {
+      const response = await fetch(API_ENDPOINTS.AUTH.RESEND_VERIFICATION, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

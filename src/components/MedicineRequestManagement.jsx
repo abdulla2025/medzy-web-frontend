@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import LoadingSpinner from './LoadingSpinner';
+import { API_ENDPOINTS } from '../config/api';
 
 const MedicineRequestManagement = () => {
   const [requests, setRequests] = useState([]);
@@ -16,7 +17,7 @@ const MedicineRequestManagement = () => {
   const fetchRequests = async () => {
     try {
       const response = await axios.get(
-        '/api/medicine-requests/all',
+        API_ENDPOINTS.MEDICINE_REQUESTS.ALL,
         {
           headers: getAuthHeaders()
         }

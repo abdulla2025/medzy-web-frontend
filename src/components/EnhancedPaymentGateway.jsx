@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const EnhancedPaymentGateway = ({ 
   orderData, 
@@ -81,7 +82,7 @@ const EnhancedPaymentGateway = ({
       }
 
       // For SSLCommerz - use the unified payment endpoint
-      const response = await fetch('/api/payments/create', {
+      const response = await fetch(API_ENDPOINTS.PAYMENTS.CREATE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

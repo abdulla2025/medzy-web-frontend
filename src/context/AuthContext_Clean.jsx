@@ -189,7 +189,7 @@ export const AuthProvider = ({ children }) => {
   // Professional user fetching with proper error handling
   const fetchCurrentUser = async (token, retryCount = 0) => {
     try {
-      const response = await fetch('/api/auth/me', {
+      const response = await fetch(API_ENDPOINTS.AUTH.ME, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -254,7 +254,7 @@ export const AuthProvider = ({ children }) => {
     setAuthError(null);
     
     try {
-      const response = await fetch('/api/auth/signin', {
+      const response = await fetch(API_ENDPOINTS.AUTH.SIGNIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -317,7 +317,7 @@ export const AuthProvider = ({ children }) => {
       // Clear any existing auth state first
       clearAuthState();
       
-      const response = await fetch('/api/auth/force-login', {
+      const response = await fetch(API_ENDPOINTS.AUTH.FORCE_LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -362,7 +362,7 @@ export const AuthProvider = ({ children }) => {
     setAuthError(null);
     
     try {
-      const response = await fetch('/api/auth/signup', {
+      const response = await fetch(API_ENDPOINTS.AUTH.SIGNUP, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -422,7 +422,7 @@ export const AuthProvider = ({ children }) => {
       
       // Notify server about logout (but don't wait for response to block UI)
       if (token && sessionId) {
-        fetch('/api/auth/logout', {
+        fetch(API_ENDPOINTS.AUTH.LOGOUT, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,

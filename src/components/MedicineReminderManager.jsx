@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import Modal from './Modal';
 import LoadingSpinner from './LoadingSpinner';
+import { API_ENDPOINTS } from '../config/api';
 
 const MedicineReminderManager = () => {
   const [reminders, setReminders] = useState([]);
@@ -49,13 +50,13 @@ const MedicineReminderManager = () => {
     try {
       setLoading(true);
       const [remindersRes, todayRes, adherenceRes] = await Promise.all([
-        axios.get('/api/medicine-reminders', {
+        axios.get(API_ENDPOINTS.MEDICINE_REMINDERS.BASE, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         }),
-        axios.get('/api/medicine-reminders/today', {
+        axios.get(API_ENDPOINTS.MEDICINE_REMINDERS.TODAY, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         }),
-        axios.get('/api/medicine-reminders/adherence?period=weekly', {
+        axios.get(API_ENDPOINTS.MEDICINE_REMINDERS.ADHERENCE + '?period=weekly', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         })
       ]);
@@ -73,7 +74,7 @@ const MedicineReminderManager = () => {
   const handleCreateReminder = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/medicine-reminders', formData, {
+      const response = await axios.post(API_ENDPOINTS.MEDICINE_REMINDERS.BASE, formData, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
 

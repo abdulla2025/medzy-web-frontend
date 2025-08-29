@@ -24,6 +24,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 import Modal from './Modal';
+import { API_ENDPOINTS } from '../config/api';
 
 const DailyUpdates = () => {
   const { user, getAuthHeaders } = useAuth();
@@ -111,7 +112,7 @@ const DailyUpdates = () => {
       console.log('📝 Creating update with data:', { ...formData, tags: tagsArray });
       console.log('🔑 Using headers:', headers);
       
-      const response = await fetch('/api/daily-updates', {
+      const response = await fetch(API_ENDPOINTS.DAILY_UPDATES.BASE, {
         method: 'POST',
         headers,
         body: JSON.stringify({

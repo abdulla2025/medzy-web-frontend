@@ -190,7 +190,7 @@ const AdminDashboard = () => {
     }
     
     try {
-      const response = await fetch('/api/auth/signup', {
+      const response = await fetch(API_ENDPOINTS.AUTH.SIGNUP, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
         body: JSON.stringify(newUserData)
