@@ -17,6 +17,7 @@ export const API_ENDPOINTS = {
     FORGOT_PASSWORD: `${API_BASE_URL}/api/auth/forgot-password`,
     RESET_PASSWORD: `${API_BASE_URL}/api/auth/reset-password`,
     VERIFY_EMAIL: `${API_BASE_URL}/api/auth/verify-email`,
+    RESEND_VERIFICATION: `${API_BASE_URL}/api/auth/resend-verification`,
     FORCE_LOGIN: `${API_BASE_URL}/api/auth/force-login`,
   },
   
@@ -41,6 +42,7 @@ export const API_ENDPOINTS = {
   // Orders
   ORDERS: {
     BASE: `${API_BASE_URL}/api/orders`,
+    MY_ORDERS: `${API_BASE_URL}/api/orders/my-orders`,
     VENDOR: {
       STATS: `${API_BASE_URL}/api/orders/vendor/stats`,
     }
@@ -49,12 +51,14 @@ export const API_ENDPOINTS = {
   // Cart
   CART: {
     BASE: `${API_BASE_URL}/api/cart`,
+    COUNT: `${API_BASE_URL}/api/cart/count`,
   },
   
   // Medicine Requests
   MEDICINE_REQUESTS: {
     BASE: `${API_BASE_URL}/api/medicine-requests`,
     MY_REQUESTS: `${API_BASE_URL}/api/medicine-requests/my-requests`,
+    ALL: `${API_BASE_URL}/api/medicine-requests/all`,
   },
   
   // Donations
@@ -65,6 +69,7 @@ export const API_ENDPOINTS = {
   // Payments
   PAYMENTS: {
     BASE: `${API_BASE_URL}/api/payments`,
+    CREATE: `${API_BASE_URL}/api/payments/create`,
     BKASH: `${API_BASE_URL}/api/payments/bkash`,
     SSLCOMMERZ: `${API_BASE_URL}/api/payments/sslcommerz`,
     STRIPE: `${API_BASE_URL}/api/payments/stripe`,
@@ -93,16 +98,23 @@ export const API_ENDPOINTS = {
   // Support
   SUPPORT: {
     BASE: `${API_BASE_URL}/api/support`,
+    MY_TICKETS: `${API_BASE_URL}/api/support/my-tickets`,
   },
   
   // Smart Doctor
   SMART_DOCTOR: {
     BASE: `${API_BASE_URL}/api/smart-doctor`,
+    ANALYZE_SYMPTOMS: `${API_BASE_URL}/api/smart-doctor/analyze-symptoms`,
+    EXTRACT_PRESCRIPTION: `${API_BASE_URL}/api/smart-doctor/extract-prescription`,
+    PERSONALIZED_PROFILE: `${API_BASE_URL}/api/smart-doctor/personalized-profile`,
+    MEDICINE_RECOMMENDATIONS: `${API_BASE_URL}/api/smart-doctor/medicine-recommendations`,
   },
   
   // Medicine Reminders
   MEDICINE_REMINDERS: {
     BASE: `${API_BASE_URL}/api/medicine-reminders`,
+    TODAY: `${API_BASE_URL}/api/medicine-reminders/today`,
+    ADHERENCE: `${API_BASE_URL}/api/medicine-reminders/adherence`,
   },
   
   // Daily Updates
@@ -118,11 +130,14 @@ export const API_ENDPOINTS = {
   // Customer Points
   CUSTOMER_POINTS: {
     BASE: `${API_BASE_URL}/api/customer-points`,
+    BALANCE: `${API_BASE_URL}/api/customer-points/balance`,
+    TRANSACTIONS: `${API_BASE_URL}/api/customer-points/transactions`,
   },
   
   // Medical Profile
   MEDICAL_PROFILE: {
     BASE: `${API_BASE_URL}/api/medical-profile`,
+    MEDICAL_HISTORY: `${API_BASE_URL}/api/medical-profile/medical-history`,
   },
   
   // Revenue Adjustments

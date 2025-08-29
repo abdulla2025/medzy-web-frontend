@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, ArrowLeft, Send, Lock } from 'lucide-react';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const ForgotPassword = ({ onBack }) => {
   const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ const ForgotPassword = ({ onBack }) => {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/forgot-password', {
+      const response = await fetch(API_ENDPOINTS.AUTH.FORGOT_PASSWORD, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
