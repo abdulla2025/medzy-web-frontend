@@ -202,7 +202,7 @@ const Cart = ({ onContinueShopping, onClose }) => {
       setUpdatingItems(prev => new Set(prev).add(medicineId));
 
       // Make API call in background
-      const response = await fetch(${API_ENDPOINTS.BASE_URL}/api/cart/update', {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/cart/update`, {
         method: 'PUT',
         headers: {
           ...getAuthHeaders(),
@@ -278,7 +278,7 @@ const Cart = ({ onContinueShopping, onClose }) => {
     setUpdatingItems(prev => new Set(prev).add(medicineId));
     
     try {
-      const response = await fetch(`/api/cart/remove/${medicineId}`, {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/cart/remove/${medicineId}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
       });
@@ -502,7 +502,7 @@ const CheckoutModal = ({ cartItems, cartSummary, onClose, onSuccess }) => {
       // Handle Cash on Delivery separately (direct order creation)
       if (paymentMethod === 'cash_on_delivery') {
         console.log('📡 Creating COD order directly...');
-        const response = await fetch(${API_ENDPOINTS.BASE_URL}/api/orders/create', {
+        const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/orders/create`, {
           method: 'POST',
           headers: {
             ...getAuthHeaders(),
@@ -583,7 +583,7 @@ const CheckoutModal = ({ cartItems, cartSummary, onClose, onSuccess }) => {
         });
 
         // Initialize payment via payment gateway service
-        const paymentResponse = await fetch(${API_ENDPOINTS.BASE_URL}/api/payments/initialize', {
+        const paymentResponse = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/initialize`, {
           method: 'POST',
           headers: {
             ...getAuthHeaders(),
@@ -649,7 +649,7 @@ const CheckoutModal = ({ cartItems, cartSummary, onClose, onSuccess }) => {
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       // Create order with legacy payment method
-      const response = await fetch(${API_ENDPOINTS.BASE_URL}/api/orders/create', {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/orders/create`, {
         method: 'POST',
         headers: {
           ...getAuthHeaders(),

@@ -18,7 +18,6 @@ import {
   Percent
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { API_ENDPOINTS } from '../config/api';
 import { useNotification } from '../context/NotificationContext';
 import { API_ENDPOINTS, getAuthHeaders } from '../config/api';
 

@@ -32,7 +32,7 @@ const BkashRefund = ({ payment, onSuccess, onError, onCancel }) => {
     setIsProcessing(true);
 
     try {
-      const response = await fetch(${API_ENDPOINTS.BASE_URL}/api/payments/bkash/refund', {
+      const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/payments/bkash/refund`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
