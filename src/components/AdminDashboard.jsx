@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Users, MessageCircle, Trash2, Eye, CheckCircle, Clock, AlertTriangle, UserPlus, Settings, BarChart3, Download, Heart, Calendar, Star, CreditCard } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 import MedicineRequestManagement from './MedicineRequestManagement';
 import DailyUpdates from './DailyUpdates';
 import AdminReviews from './AdminReviews';
@@ -62,7 +63,7 @@ const AdminDashboard = () => {
       }
 
       // Fetch medicine requests
-      const requestsResponse = await fetch('http://localhost:5000/api/medicine-requests/all', { headers });
+      const requestsResponse = await fetch(API_ENDPOINTS.MEDICINE_REQUESTS.ALL, { headers });
       if (requestsResponse.ok) {
         const requestsData = await requestsResponse.json();
         setMedicineRequests(requestsData);

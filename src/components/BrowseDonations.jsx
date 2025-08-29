@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 import LoadingSpinner from './LoadingSpinner';
 import Modal from './Modal';
 
@@ -50,7 +51,7 @@ const BrowseDonations = () => {
         ...filters
       });
 
-      const response = await fetch(`http://localhost:5000/api/donations/browse?${queryParams}`, {
+      const response = await fetch(`${API_ENDPOINTS.DONATIONS.BASE}/browse?${queryParams}`, {
         headers: getAuthHeaders()
       });
 
@@ -129,7 +130,7 @@ const BrowseDonations = () => {
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/api/donations/${selectedDonation._id}/request`, {
+      const response = await fetch(`${API_ENDPOINTS.DONATIONS.BASE}/${selectedDonation._id}/request`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

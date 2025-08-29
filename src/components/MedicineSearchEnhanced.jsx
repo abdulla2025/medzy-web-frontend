@@ -34,6 +34,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 import { useDarkMode } from '../context/DarkModeContext';
 import Modal from './Modal';
 import PharmacyMap from './PharmacyMap';
@@ -145,7 +146,7 @@ const MedicineSearchEnhanced = () => {
         })
       });
 
-      const response = await fetch(`http://localhost:5000/api/medicines/search?${params}`, {
+      const response = await fetch(`${API_ENDPOINTS.MEDICINES.SEARCH}?${params}`, {
         headers: getAuthHeaders()
       });
 
@@ -207,7 +208,7 @@ const MedicineSearchEnhanced = () => {
   // Fetch categories
   const fetchCategories = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/medicines/categories', {
+      const response = await fetch(API_ENDPOINTS.MEDICINES.BASE + '/categories', {
         headers: getAuthHeaders()
       });
       if (response.ok) {
@@ -256,7 +257,7 @@ const MedicineSearchEnhanced = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/cart/add', {
+      const response = await fetch(API_ENDPOINTS.CART.BASE + '/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

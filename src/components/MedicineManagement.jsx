@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
+import { API_ENDPOINTS } from '../config/api';
 import LoadingSpinner from './LoadingSpinner';
 import Modal from './Modal';
 
@@ -44,7 +45,7 @@ const MedicineManagement = () => {
   const [selectedMedicine, setSelectedMedicine] = useState(null);
   const [categories, setCategories] = useState([]);
 
-  const API_BASE_URL = 'http://localhost:5000/api';
+  const API_BASE_URL = API_ENDPOINTS.BASE_URL + '/api';
 
   // Form states
   const [formData, setFormData] = useState({

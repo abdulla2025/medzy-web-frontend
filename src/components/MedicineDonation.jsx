@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 import LoadingSpinner from './LoadingSpinner';
 import Modal from './Modal';
 
@@ -158,7 +159,7 @@ const MedicineDonation = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/donations/submit', {
+      const response = await fetch(API_ENDPOINTS.DONATIONS.BASE + '/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

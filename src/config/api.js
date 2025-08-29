@@ -52,6 +52,7 @@ export const API_ENDPOINTS = {
   CART: {
     BASE: `${API_BASE_URL}/api/cart`,
     COUNT: `${API_BASE_URL}/api/cart/count`,
+    ADD: `${API_BASE_URL}/api/cart/add`,
   },
   
   // Medicine Requests
@@ -64,6 +65,9 @@ export const API_ENDPOINTS = {
   // Donations
   DONATIONS: {
     BASE: `${API_BASE_URL}/api/donations`,
+    SUBMIT: `${API_BASE_URL}/api/donations/submit`,
+    BROWSE: `${API_BASE_URL}/api/donations/browse`,
+    MY_DONATIONS: `${API_BASE_URL}/api/donations/my-donations`,
   },
   
   // Payments
