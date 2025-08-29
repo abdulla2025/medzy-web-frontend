@@ -11,7 +11,7 @@ const BkashPayment = ({ orderId, amount, onSuccess, onError, onCancel }) => {
   const createPayment = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/payments/bkash/create', {
+      const response = await fetch(${API_ENDPOINTS.BASE_URL}/api/payments/bkash/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const BkashPayment = ({ orderId, amount, onSuccess, onError, onCancel }) => {
 
   const executePayment = async (paymentID) => {
     try {
-      const response = await fetch('/api/payments/bkash/execute', {
+      const response = await fetch(${API_ENDPOINTS.BASE_URL}/api/payments/bkash/execute', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -220,3 +220,4 @@ const BkashPayment = ({ orderId, amount, onSuccess, onError, onCancel }) => {
 };
 
 export default BkashPayment;
+
