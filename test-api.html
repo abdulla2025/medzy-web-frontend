@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API Configuration Test</h1>
+    <div id="results"></div>
+    
+    <script type="module">
+        // Import API configuration
+        import { API_ENDPOINTS } from './src/config/api.js';
+        
+        const results = document.getElementById('results');
+        
+        // Test API configuration
+        results.innerHTML += `<p><strong>API Base URL:</strong> ${API_ENDPOINTS.BASE_URL}</p>`;
+        results.innerHTML += `<p><strong>Reviews Public URL:</strong> ${API_ENDPOINTS.REVIEWS?.PUBLIC || 'UNDEFINED'}</p>`;
+        results.innerHTML += `<p><strong>Medicines URL:</strong> ${API_ENDPOINTS.MEDICINES?.BASE || 'UNDEFINED'}</p>`;
+        
+        // Test fetch to backend
+        async function testAPI() {
+            try {
+                const response = await fetch(`${API_ENDPOINTS.BASE_URL}/api/debug/data-check`);
+                const data = await response.json();
+                results.innerHTML += `<p><strong>Backend Response:</strong> ${JSON.stringify(data)}</p>`;
+            } catch (error) {
+                results.innerHTML += `<p><strong>Backend Error:</strong> ${error.message}</p>`;
+            }
+        }
+        
+        testAPI();
+    </script>
+</body>
+</html>

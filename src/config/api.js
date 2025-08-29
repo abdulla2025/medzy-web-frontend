@@ -1,11 +1,27 @@
-// API Configuration
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://medzy-web-backend.vercel.app';
+// API Configuration with production fallback
+const getApiBaseUrl = () => {
+  // Check if we have environment variable
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  
+  // Production fallback based on current hostname
+  if (typeof window !== 'undefined' && window.location.hostname.includes('vercel.app')) {
+    return 'https://medzy-web-backend.vercel.app';
+  }
+  
+  // Development fallback
+  return 'http://localhost:5000';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL || 'http://localhost:5173';
 
 console.log('🔧 API Configuration:', {
   VITE_API_URL: import.meta.env.VITE_API_URL,
   API_BASE_URL,
-  environment: import.meta.env.MODE
+  environment: import.meta.env.MODE,
+  hostname: typeof window !== 'undefined' ? window.location.hostname : 'server'
 });
 
 // API endpoints
